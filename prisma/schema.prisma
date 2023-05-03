@@ -1,0 +1,74 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id String @id @default(uuid())
+  name String
+  email String
+  password String
+  created_at DateTime? @default(now())
+  updated_at DateTime? @default(now())
+
+  @@map("users")
+}
+
+model Profile {
+  id String @id @default(uuid())
+  name String
+  telephone String
+  city String
+  about String
+  photograph String
+  created_at DateTime? @default(now())
+  updated_at DateTime? @default(now())
+
+  @@map("profiles")
+}
+
+model Messege {
+  id String @id @default(uuid())
+  name String
+  telephone String
+  animalName String
+  message String
+  created_at DateTime? @default(now())
+  updated_at DateTime? @default(now())
+
+  @@map("messeges")
+}
+
+model Shelter {
+  id String @id @default(uuid())
+  name String
+  created_at DateTime? @default(now())
+  updated_at DateTime? @default(now())
+
+  @@map("shelters")
+  pets Pet[]
+}
+
+model Pet {
+  id String @id @default(uuid())
+  name String 
+  age String
+  size String
+  description String
+  city String
+  created_at DateTime? @default(now())
+  updated_at DateTime? @default(now())
+
+  shelter Shelter @relation(fields: [shelter_id], references: [id])
+
+  @@map("pets")
+  shelter_id String
+}
+//criar uma migration yarn prisma migrate dev
